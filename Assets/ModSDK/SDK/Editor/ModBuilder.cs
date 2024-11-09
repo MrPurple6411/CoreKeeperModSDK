@@ -203,6 +203,11 @@ namespace PugMod
 
                 if (asset.EndsWith(".asmdef"))
                 {
+                    string fileName = Path.GetFileNameWithoutExtension(asset);
+                    if (!fileName.Equals(modName))
+					{
+						Debug.LogWarning($"asmdef {fileName} does not match Mod Name of {modName}! This will cause any generated burst code to fail to be included and if included it will fail to compile ingame.");
+					}
                     assetPaths.RemoveAt(i);
                     continue;
                 }
@@ -218,13 +223,13 @@ namespace PugMod
 				relativeDestPaths.Add(assetFileInfo.FullName.Substring(directoryInfo.FullName.Length + 1));
 				assetPaths.RemoveAt(i);
 			}
-			
-			foreach (var asset in scriptPaths)
+
+            foreach (var asset in scriptPaths)
 			{
 				AssetDatabase.ImportAsset(asset, ImportAssetOptions.ForceUpdate | ImportAssetOptions.ForceSynchronousImport);
-			}
+            }
 
-			var generatedCodeDirectories = new string[]
+            var generatedCodeDirectories = new string[]
 			{
 				Path.Combine(Application.dataPath, "..", "Temp", "GeneratedCode"),
 				Path.Combine(Application.dataPath, "..", "Temp", "NetCodeGenerated")
@@ -280,7 +285,7 @@ namespace PugMod
 #endif
 		}
 
-		private static void BuildLibraries(string modDirectory, string outputPath, List<string> assetPaths, List<string> manifest)
+        private static void BuildLibraries(string modDirectory, string outputPath, List<string> assetPaths, List<string> manifest)
 		{
 			List<string> dllPaths = new();
 			
