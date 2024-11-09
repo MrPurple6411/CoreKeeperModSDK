@@ -208,7 +208,8 @@ namespace PugMod
 							return;
 						}
 
-						EditorUtility.DisplayDialog("Export", $"Mod {modSettings.metadata.name} successfully exported to {path}", "OK");
+						//EditorUtility.DisplayDialog("Export", $"Mod {modSettings.metadata.name} successfully exported to {path}", "OK");
+						Debug.Log($"Mod {modSettings.metadata.name} successfully exported to {path}");
 					});
 				};
 
